@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hygeia-care/hygeia-care-bills.git"
+    "url": "https://github.com/hygeia-care/hygeia-care-bills.git"
   },
   "homepage": "https://github.com/hygeia-care/hygeia-care-bills",
   "private": true,
