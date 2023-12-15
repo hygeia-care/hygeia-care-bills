@@ -36,7 +36,7 @@ spec:
             periodSeconds: 1
             httpGet:
               path: /
-              port: 3338
+              port: 3337
           livenessProbe:
             initialDelaySeconds: 10
             periodSeconds: 1
