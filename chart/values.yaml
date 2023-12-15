@@ -1,4 +1,4 @@
-assurance:
+bill:
   replicaCount: 1
 
-billMongoUrl: mongodb://mongo/bill
+billMongoUrl: mongodb://mongo/test
