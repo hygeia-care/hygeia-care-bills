@@ -1,0 +1,4 @@
+assurance:
+  replicaCount: 1
+
+billMongoUrl: mongodb://mongo/bill

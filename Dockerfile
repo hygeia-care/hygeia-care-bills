@@ -1,4 +1,4 @@
-FROM node:13-alpine
+FROM node:16-alpine
 
 WORKDIR /app
 
@@ -10,6 +10,7 @@ RUN npm install
 COPY bin/ ./bin
 COPY public ./public
 COPY routes/ ./routes
+COPY models/ ./models
 # COPY services/ ./services
 COPY app.js .
 
