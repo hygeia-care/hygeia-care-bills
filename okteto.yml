@@ -1,0 +1,14 @@
+build:
+  bill:
+    context: .
+
+deploy:
+  - helm upgrade --install bill chart
+    --set bill.image=${OKTETO_BUILD_BILL_IMAGE}
+    --set billMongoUrl=$BILL_DB_URL
+
+dev:
+  bill:
+    command: npm start
+    sync:
+      - .:/app
