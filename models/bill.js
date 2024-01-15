@@ -33,8 +33,7 @@ const billSchema = new mongoose.Schema({
     appointment: {
         type: String,
         required: true
-    }    
-
+    } 
 });
 
 billSchema.methods.cleanup = function() {
