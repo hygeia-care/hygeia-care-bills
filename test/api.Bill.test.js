@@ -136,8 +136,47 @@ describe("Bill API", () => {
         });
     });
 
+    describe("PUT /bills/:id", () => {
+        const bill = new Bill({  "name": "test1",  "total":"50.5",
+                                "description":"description bill 4 from postman", 
+                                "services":"services from postman",
+                                "issueDate":"12/12/2023","patient":"usuario 2", "appointment":"12/12/2023"
+        })
+        var dbUpdateOne;
 
+        beforeEach(() => {
+            dbUpdateOne = jest.spyOn(bill, "findByIdAndUpdate");
+        });
 
+        it("Should UPDATE bill given its id", () => {
+            dbUpdateOne.mockImplementation(async () => Promise.resolve({ message: 'Bill successfully updadted', deletedCount: 1}));
+
+            return request(app).delete("/api/v1/bills/"+bill._id).then((response) => {
+                expect(response.statusCode).toBe(200);
+                expect(response.body.message).toEqual("Bill successfully deleted");
+                expect(dbUpdateOne).toBeCalled();
+            });
+        });
+
+        it("Should return 404 if the bill does not exist", () => {
+            dbUpdateOne.mockImplementation(async () => Promise.resolve({ message: 'Bill not found', deletedCount: 0}));
+
+            return request(app).delete("/api/v1/bills/"+(bill._id+1)).then((response) => {
+                expect(response.statusCode).toBe(404);
+                expect(response.body.error).toEqual("Bill not found");
+                expect(dbUpdateOne).toBeCalled();
+            });
+        });
+
+        it("Should return 500 if there is a problem when deleting an bill ", () => {
+            dbUpdateOne.mockImplementation(async () => Promise.reject("Connection failed"));
+
+            return request(app).delete("/api/v1/bills/"+bill._id).then((response) => {
+                expect(response.statusCode).toBe(500);
+                expect(dbUpdateOne).toBeCalled();
+            });
+        });
+    });
 
 
 /*

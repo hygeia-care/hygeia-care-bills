@@ -112,6 +112,7 @@ router.post('/', async function(req, res, next) {
 
 
 /* PUT bills  */
+/*
 router.put('/', async function(req, res, next) {
   const {name,    description,  total,  services,    issueDate,    patient,    appointment} = req.body;
   console.log("PUT bills: start");
@@ -131,15 +132,61 @@ router.put('/', async function(req, res, next) {
     console.log("PUT bills: after save");
     return res.sendStatus(201);
   } catch (e) {
-    if (e.errors) {
-      debug("Validation problem when saving");
-      res.status(400).send({error: e.message});
+    if (e.errors) {  
+      
+
+      // Error de validación (400 - Bad Request)
+      if (e.name === 'ValidationError') {        
+        res.status(400).send({error: e.message});
+      }
+
+
     } else {
       debug("DB problem - post bills", e);
       res.sendStatus(500);
     }
+  
+
   }
 });
+*/
+/* PUT bills */
+router.put('/', async function(req, res, next) {
+  const { name, description, total, services, issueDate, patient, appointment, _id } = req.body;
+
+  try {
+    const updatedBill = await Bill.findByIdAndUpdate(
+      _id,
+      {
+        name,
+        description,
+        total,
+        services,
+        issueDate,
+        patient,
+        appointment,
+        _id
+      },
+      { new: true } // Returns the updated document
+    );
+
+
+    if (updatedBill) {
+      console.log("PUT bills: bill ID ${updatedBill.id} successfully updated");
+      
+      const remainingBills = await Bill.find(); // Fetch the remaining bills after deletion
+
+      res.status(200).json({ message: 'Bill successfully updated', remainingBills });
+    } else {
+      console.log("PUT bills: bill ID ${_id} not found");
+      res.status(404).json({ error: 'Bill not found' });
+    }
+  } catch (error) {
+    console.error('Error updating bill:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 
 // Eliminar una factura por su id
@@ -150,7 +197,11 @@ router.delete('/:id', async (req, res) => {
     console.log("delete bill, id: " +idBill);
     const result = await Bill.deleteOne({ _id: idBill });         
     if (result.deletedCount > 0) {
-      res.status(200).json({ message: 'Bill successfully deleted' });
+      //res.status(200).json({ message: 'Bill successfully deleted' });
+      
+      const remainingBills = await Bill.find(); // Fetch the remaining bills after deletion
+      res.status(200).json({ message: 'Bill successfully deleted', remainingBills });
+      
     } else {
       res.status(404).json({ error: 'Bill not found'});
     }
@@ -163,6 +214,7 @@ router.delete('/:id', async (req, res) => {
       res.sendStatus(500);
     }
   }
+
   
 });
 
