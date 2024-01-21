@@ -10,7 +10,7 @@ const getAssurance = async function(name){
     try{
         //const url = urlJoin(ASSURANCE_SERVICE, API_VERSION);
         const url = ASSURANCE_SERVICE + API_VERSION;
-        console.log("URL-llamada a AssuranceService:" , url);
+        //console.log("URL-llamada a AssuranceService:" , url);
         const response = await axios.get(url) ; // variable espera la respuesta de axios
         debug("response: " + response);
         return response.data;
