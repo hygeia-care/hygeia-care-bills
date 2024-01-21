@@ -36,7 +36,7 @@ const billSchema = new mongoose.Schema({
     } 
 });
 
-billSchema.methods.cleanup = function() {
+/*billSchema.methods.cleanup = function() {
     return {
         name: this.name,
         description: this.description,
@@ -46,7 +46,7 @@ billSchema.methods.cleanup = function() {
         patient: this.patient,
         appointment: this.appointment
     }
-}
+}*/
 
 const Bill = mongoose.model('Bill', billSchema);
 
